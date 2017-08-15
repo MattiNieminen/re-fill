@@ -1,6 +1,6 @@
 (defproject re-fill "0.1.0-SNAPSHOT"
-  :description "FIXME: write this!"
-  :url "http://example.com/FIXME"
+  :description "A collection of Re-frame components that most application need."
+  :url "https://github.com/metosin/re-fill"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
