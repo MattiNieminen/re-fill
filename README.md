@@ -1,4 +1,4 @@
-# re-fill
+# Re-fill
 
 A collection of Re-frame components that most applications need. Currently,
 Re-fill offers event handlers, subscriptions, effects and co-effects for:
@@ -130,7 +130,7 @@ gonna be rendered. Here's a simple example:
 ```clj
 (rf/reg-event-fx
  :routes/home
- ;; The first argument is the co-effects (normal re-frame stuff)
+ ;; The first argument is the co-effects (normal Re-frame stuff)
  ;; The second argument is the event itself. The route match
  ;; from bidi can be destructured from it
  (fn [_ [_ bidi-match]]
