@@ -261,6 +261,8 @@ The library is currently under heavy development, so no Clojars-releases yet.
  * A Re-frame library for making HTTP requests is the most important
 * Study re-frisk, or implement a custom dev component for viewing
 state and time traveling between events.
+* Study how to (optionally!) use hash / URL fragment instead of
+History API.
 
 ## License
 
