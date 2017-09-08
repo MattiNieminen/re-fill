@@ -6,7 +6,11 @@
   :min-lein-version "2.7.1"
   :dependencies [[org.clojure/clojure "1.8.0" :scope "provided"]
                  [org.clojure/clojurescript "1.9.854" :scope "provided"]
-                 [reagent "0.7.0"]]
+                 [re-frame "0.10.1" :scope "provided"]
+                 [reagent "0.8.0-alpha1" :scope "provided"]
+                 [bidi "2.1.2"]
+                 [kibu/pushy "0.3.8"]
+                 [cljs-uuid "0.0.4"]]
   :plugins [[lein-figwheel "0.5.12"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
   :cljsbuild {:builds
