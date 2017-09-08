@@ -19,7 +19,8 @@ globally after requiring the specific namespace for the wanted utility.
 ### Routing
 
 Routing utility provides means to listen for URL changes and dispatch events
-based on them, making it possible to write bookmarkable single-page with ease.
+based on them, making it possible to write bookmarkable single-page apps
+with ease.
 
 Currently, Re-fill only supports routes defined using
 [Bidi](https://github.com/juxt/bidi) syntax. For listening the URL in
