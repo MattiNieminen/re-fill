@@ -108,7 +108,7 @@
             :else loading-view})
 
 ;;
-;;
+;; Entry point
 ;;
 
 (defn init!
