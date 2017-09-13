@@ -22,10 +22,7 @@
    [:a.controls__a {:href "/page/1"} "Page 1 (by link)"]
    [:a.controls__a {:href "/page/2"} "Page 2 (by link)"]
    [:button.controls__button
-    {:on-click (fn [_]
-                 (rf/dispatch [:re-fill/navigate
-                               [:routes/page :id 2]
-                               {:origin-view "example.core/controls-view"}]))}
+    {:on-click #(rf/dispatch [:re-fill/navigate [:routes/page :id 2]])}
     "Page 2 (by dispatch)"]
    [:button.controls__button
     {:on-click (fn [_] (rf/dispatch [:re-fill/notify
@@ -60,12 +57,8 @@
 
 (defn page-view
   []
-  (let [{:keys [bidi-match extra-params]} @(rf/subscribe [:re-fill/routing])]
-    [:h1 (str "This is page "
-              (get-in bidi-match [:route-params :id])
-              (if extra-params
-                (str ", which was viewed with extra-params "
-                     (pr-str extra-params))))]))
+  (let [{:keys [bidi-match]} @(rf/subscribe [:re-fill/routing])]
+    [:h1 (str "This is page " (get-in bidi-match [:route-params :id]))]))
 
 (defn loading-view
   []
@@ -79,8 +72,7 @@
    [:div.main-content
     [routing/routed-view views]
     ;; For debugging this example. Don't do this in your app!
-    [:h2 (pr-str @re-frame.db/app-db)]
-    ]
+    [:h2 (pr-str @re-frame.db/app-db)]]
    [notifications-view]])
 
 ;;

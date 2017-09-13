@@ -39,10 +39,9 @@
 
 (rf/reg-event-fx
  :re-fill/navigate
- (fn [{:keys [db]} [_ bidi-args extra-params]]
+ (fn [{:keys [db]} [_ bidi-args]]
    (let [{:keys [pushy-instance routes]} (:re-fill/routing db)]
-     {:db (assoc-in db [:re-fill/routing :extra-params] extra-params)
-      :re-fill/navigate* {:pushy-instance pushy-instance
+     {:re-fill/navigate* {:pushy-instance pushy-instance
                           :routes routes
                           :bidi-args bidi-args}})))
 

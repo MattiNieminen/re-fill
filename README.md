@@ -98,17 +98,10 @@ programmatically. Here's an example of both:
  [:button.controls__button
   {:on-click (fn [_]
                (rf/dispatch [:re-fill/navigate
-                             ;; The first argument to re-fill/navigate is the
-                             ;; actual route with path-params
+                             ;; The argument to re-fill/navigate is the actual
+                             ;; route with path-params.
                              ;; See Bidi documentation for more information
-                             [:routes/page :id 2]
-                             ;; You can also use the second (optional) argument
-                             ;; to send some additional arguments to the new
-                             ;; view.
-                             ;; This is useful if there's something to
-                             ;; communicate from one view to another, but
-                             ;; you don't want to encode that into the URL.
-                             {:origin-view "example.core/controls-view"}]))}
+                             [:routes/page :id 2]]))}
   "Page 2 (by dispatch)"]]
 ```
 
