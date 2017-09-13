@@ -1,36 +1,38 @@
 (ns re-fill.routing
   (:require [bidi.bidi :as bidi]
             [pushy.core :as pushy]
-            [re-frame.core :as rf]))
-
-(defonce state (atom nil))
+            [re-frame.core :as rf]
+            [re-frame.db :as db]))
 
 (rf/reg-fx
  :re-fill/init-routing*
- (fn [routes]
-   (when-let [{:keys [pushy-instance]} @state]
-     (pushy/stop! pushy-instance))
-   (->> (pushy/pushy #(rf/dispatch [:re-fill/change-view %]) (partial bidi/match-route routes))
-        (swap! state assoc :routes routes :pushy-instance)
-        :pushy-instance
-        pushy/start!)))
+ (fn [_]
+   (let [pushy-instance (get-in @db/app-db [:re-fill/routing :pushy-instance])]
+     (if-not pushy-instance
+       (->> (pushy/pushy #(rf/dispatch [:re-fill/change-view %]) identity)
+            (swap! db/app-db assoc-in [:re-fill/routing :pushy-instance])
+            :re-fill/routing
+            :pushy-instance
+            pushy/start!)))))
 
 (rf/reg-event-fx
  :re-fill/init-routing
- (fn [_ [_ routes]]
-   {:re-fill/init-routing* routes}))
+ (fn [{:keys [db]} [_ routes]]
+   {:db (assoc-in db [:re-fill/routing :routes] routes)
+    :re-fill/init-routing* nil}))
 
 (rf/reg-event-fx
  :re-fill/change-view
- (fn [{:keys [db]} [_ bidi-match]]
-   {:db (assoc db :re-fill/routing {:bidi-match bidi-match})
-    :dispatch [(:handler bidi-match) bidi-match]}))
+ (fn [{:keys [db]} [_ token]]
+   (let [{:keys [routes]} (:re-fill/routing db)
+         bidi-match (bidi/match-route routes token)]
+     {:db (assoc-in db [:re-fill/routing :bidi-match] bidi-match)
+      :dispatch [(:handler bidi-match) bidi-match]})))
 
 (rf/reg-fx
  :re-fill/navigate*
- (fn [bidi-args]
-   (let [{:keys [pushy-instance routes]} @state
-         path (apply bidi/path-for routes bidi-args)]
+ (fn [{:keys [pushy-instance routes bidi-args]}]
+   (let [path (apply bidi/path-for routes bidi-args)]
      (if path
        (pushy/set-token! pushy-instance path)
        (js/console.error "No matching route for" bidi-args)))))
@@ -38,8 +40,11 @@
 (rf/reg-event-fx
  :re-fill/navigate
  (fn [{:keys [db]} [_ bidi-args extra-params]]
-   {:db (assoc-in db [:re-fill/routing :extra-params] extra-params)
-    :re-fill/navigate* bidi-args}))
+   (let [{:keys [pushy-instance routes]} (:re-fill/routing db)]
+     {:db (assoc-in db [:re-fill/routing :extra-params] extra-params)
+      :re-fill/navigate* {:pushy-instance pushy-instance
+                          :routes routes
+                          :bidi-args bidi-args}})))
 
 (rf/reg-sub
  :re-fill/routing
