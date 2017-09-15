@@ -16,7 +16,7 @@
   :cljsbuild {:builds
               [{:id "dev"
                 :source-paths ["src" "example-src"]
-                :figwheel {:open-urls ["http://localhost:3449/index.html"]}
+                :figwheel {:open-urls ["http://localhost:3449"]}
                 :compiler {:main example.core
                            :asset-path "js/out"
                            :output-to "dev-build/public/js/example.js"
