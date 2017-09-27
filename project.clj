@@ -1,4 +1,4 @@
-(defproject re-fill "0.1.0-SNAPSHOT"
+(defproject metosin/re-fill "0.1.0-SNAPSHOT"
   :description "A collection of Re-frame components that most applications need."
   :url "https://github.com/metosin/re-fill"
   :license {:name "Eclipse Public License"

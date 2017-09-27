@@ -245,11 +245,12 @@ normal Figwheel development flow.
 
 ## Releasing
 
-The library is currently under heavy development, so no Clojars-releases yet.
+```bash
+lein deploy clojars
+```
 
 ## TODO
 
-* Release to Clojars + documentation for releasing.
 * Migrate from Bidi to Reitit.
 * Add documentation about complementing libraries
  * A Re-frame library for making HTTP requests is the most important
