@@ -5,7 +5,7 @@
             [re-frame.db :as db]))
 
 (rf/reg-fx
- :re-fill/init-routing*
+ :re-fill/init-routing
  (fn [_]
    (let [pushy-instance (get-in @db/app-db [:re-fill/routing :pushy-instance])]
      (if-not pushy-instance
@@ -19,7 +19,7 @@
  :re-fill/init-routing
  (fn [{:keys [db]} [_ routes]]
    {:db (assoc-in db [:re-fill/routing :routes] routes)
-    :re-fill/init-routing* nil}))
+    :re-fill/init-routing nil}))
 
 (rf/reg-event-fx
  :re-fill/change-view
@@ -30,7 +30,7 @@
       :dispatch [(:handler bidi-match) bidi-match]})))
 
 (rf/reg-fx
- :re-fill/navigate*
+ :re-fill/navigate
  (fn [{:keys [pushy-instance routes bidi-args]}]
    (let [path (apply bidi/path-for routes bidi-args)]
      (if path
@@ -41,9 +41,9 @@
  :re-fill/navigate
  (fn [{:keys [db]} [_ bidi-args]]
    (let [{:keys [pushy-instance routes]} (:re-fill/routing db)]
-     {:re-fill/navigate* {:pushy-instance pushy-instance
-                          :routes routes
-                          :bidi-args bidi-args}})))
+     {:re-fill/navigate {:pushy-instance pushy-instance
+                         :routes routes
+                         :bidi-args bidi-args}})))
 
 (rf/reg-sub
  :re-fill/routing
