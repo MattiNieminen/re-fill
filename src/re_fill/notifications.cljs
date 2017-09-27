@@ -21,7 +21,6 @@
           :re-fill/notifications
           (remove #(= (:id %) id) (:re-fill/notifications db)))))
 
-
 (rf/reg-sub
  :re-fill/notifications
  (fn [db _]
