@@ -1,6 +1,6 @@
 (ns re-fill.notifications
   (:require [re-frame.core :as rf]
-            [re-fill.random]))
+            [re-fill.uuid]))
 
 (rf/reg-event-fx
  :re-fill/notify

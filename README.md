@@ -147,6 +147,8 @@ dialogs to end-users.
 Notifications can be created with ```:re-fill/notify``` event. For example:
 
 ```clj
+;; re-fill.notifications must be required
+
 [:button.controls__button
  {:on-click (fn [_] (rf/dispatch [:re-fill/notify
                                    ;; The first argument is the data
@@ -178,6 +180,8 @@ Here's a simple view to demonstrate the usage of
 subscription:
 
 ```clj
+;; re-fill.notifications must be required
+
 (defn notifications-view
   []
   ;; Subscribing the notifications
@@ -211,6 +215,8 @@ it internally to generate unique ids for each notification.
 to be created. Here's an example of how to use it:
 
 ```clj
+;; re-fill.uuid must be required
+
 (rf/reg-event-fx
  :your/event
  [(rf/inject-cofx :re-fill/uuids 2)]
