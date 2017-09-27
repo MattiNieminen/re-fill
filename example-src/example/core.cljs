@@ -2,7 +2,8 @@
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [re-fill.routing :as routing]
-            [re-fill.notifications :as notifications]))
+            [re-fill.notifications :as notifications]
+            [re-fill.debounce :as debounce]))
 
 ;;
 ;; Bidi-routes
@@ -34,7 +35,16 @@
     {:on-click (fn [_] (rf/dispatch [:re-fill/notify
                                     {:type :warning
                                      :content "Warning!"}]))}
-    "Notify warning!"]])
+    "Notify warning!"]
+   [:button.controls__button
+    {:on-click (fn [_] (rf/dispatch [:re-fill/debounce
+                                    {:key :notify
+                                     :event [:re-fill/notify
+                                             {:type :success
+                                              :content "From debounce!"}
+                                             {:hide-after 3000}]
+                                     :timeout 400}]))}
+    "Notify with debounce"]])
 
 (defn notifications-view
   []
