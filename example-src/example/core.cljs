@@ -18,33 +18,38 @@
 
 (defn controls-view
   []
-  [:div.controls
-   [:a.controls__a {:href "/"} "Home"]
-   [:a.controls__a {:href "/page/1"} "Page 1 (by link)"]
-   [:a.controls__a {:href "/page/2"} "Page 2 (by link)"]
-   [:button.controls__button
-    {:on-click #(rf/dispatch [:re-fill/navigate [:routes/page :id 2]])}
-    "Page 2 (by dispatch)"]
-   [:button.controls__button
-    {:on-click (fn [_] (rf/dispatch [:re-fill/notify
-                                    {:type :success
-                                     :content "Success!"}
-                                    {:hide-after 3000}]))}
-    "Notify success!"]
-   [:button.controls__button
-    {:on-click (fn [_] (rf/dispatch [:re-fill/notify
-                                    {:type :warning
-                                     :content "Warning!"}]))}
-    "Notify warning!"]
-   [:button.controls__button
-    {:on-click (fn [_] (rf/dispatch [:re-fill/debounce
-                                    {:key :notify
-                                     :event [:re-fill/notify
-                                             {:type :success
-                                              :content "From debounce!"}
-                                             {:hide-after 3000}]
-                                     :timeout 400}]))}
-    "Notify with debounce"]])
+  (let [debounce @(rf/subscribe [:re-fill/debounce])]
+    [:div.controls
+     [:a.controls__a {:href "/"} "Home"]
+     [:a.controls__a {:href "/page/1"} "Page 1 (by link)"]
+     [:a.controls__a {:href "/page/2"} "Page 2 (by link)"]
+     [:button.controls__button
+      {:on-click #(rf/dispatch [:re-fill/navigate [:routes/page :id 2]])}
+      "Page 2 (by dispatch)"]
+     [:button.controls__button
+      {:on-click (fn [_] (rf/dispatch [:re-fill/notify
+                                      {:type :success
+                                       :content "Success!"}
+                                      {:hide-after 3000}]))}
+      "Notify success!"]
+     [:button.controls__button
+      {:on-click (fn [_] (rf/dispatch [:re-fill/notify
+                                      {:type :warning
+                                       :content "Warning!"}]))}
+      "Notify warning!"]
+     [:button.controls__button
+      {:on-click (fn [_] (rf/dispatch [:re-fill/debounce
+                                      {:key :test-notify
+                                       :event [:re-fill/notify
+                                               {:type :success
+                                                :content "From debounce!"}
+                                               {:hide-after 3000}]
+                                       :timeout 1000}]))}
+      "Notify with debounce"]
+     [:button.controls__button
+      {:on-click (fn [_] (rf/dispatch [:re-fill/stop-debounce :test-notify]))
+       :disabled (not (:test-notify debounce))}
+      "Stop debounce"]]))
 
 (defn notifications-view
   []
