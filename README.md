@@ -7,6 +7,8 @@ Re-fill offers event handlers, subscriptions, effects and co-effects for:
 views.
 * Global notifications, which can be hidden after timeout (just bring your
 own views).
+* Debouncing events (making sure that only one event of certain type is
+scheduled to be ran at once.)
 * Generating UUIDs to your event handlers.
 
 ## Usage
@@ -155,8 +157,7 @@ In order to use notifications, the correct namespaces must be required:
 
 ```clj
 (ns example.core
-  (:require [reagent.core :as r]
-            [re-frame.core :as rf]
+  (:require [re-frame.core :as rf]
             [re-fill.notifications :as notifications]))
 ```
 
@@ -212,6 +213,79 @@ subscription:
          ;; Unique id is generated automatically by Re-fill 
          {:on-click #(rf/dispatch [:re-fill/delete-notification id])}
          "x"]])]))
+```
+
+See
+[full example](https://github.com/metosin/re-fill/tree/master/example-src/example/core.cljs)
+for more information.
+
+### Debounce
+
+Debounce utility can be used for:
+* Scheduling a dispatch of some event to a later time
+* Canceling those scheduled events before they are dispatched
+* Identifying scheduled events with keys to make sure that an event of certain
+type has been only scheduled once.
+
+For those who are new to debounce there's a good explanation of debounce at
+[css-tricks.com](https://css-tricks.com/debouncing-throttling-explained-examples/)
+
+To use debounce utility, the correct namespaces must be required:
+
+```clj
+(ns example.core
+  (:require [re-frame.core :as rf]
+            [re-fill.debounce :as debounce]))
+```
+
+To schedule an event to the future, the event ```:re-fill/debounce``` can be
+used. Here's an example of how to schedule the ```:re-fill/notify``` with
+a one second timeout.
+
+```clj
+[:button.controls__button
+ {:on-click (fn [_] (rf/dispatch [:re-fill/debounce
+                                  ;; The :key is used to identify the scheduled
+                                  ;; event.
+                                  {:key :test-notify
+                                   ;; The actual event that will be dispatched
+                                   ;; or debounced.
+                                   :event [:re-fill/notify
+                                           {:type :success
+                                            :content "From debounce!"}
+                                           {:hide-after 3000}]
+                                   ;; Timeout in ms for scheduling the dispatch
+                                   ;; to the future.
+                                   :timeout 1000}]))}
+      "Notify with debounce"]
+```
+
+Debounce is more than just ```:dispatch-later``` built into Re-frame: this
+scheduled event can be moved further into the future by dispatching
+```:re-fill/debounce``` again with the same ```:key``` that was used before.
+This means that in the example above the ```:re-fill/notify``` event won't be
+dispatched ever if the user keeps clicking the button repeatedly with the less
+than one second intervals.
+
+Debounce is great for dispatching events after the user has stopped doing
+something that results in multiple browser events, such as starting a search
+after the user has stopped typing.
+
+There's also a subscription ```:re-fill/debounce``` for getting all the
+scheduled events which have not yet been dispatched. Debounce utility also
+allows canceling the dispatch of the event while the timeout is still active
+by using the ```:re-fill/stop-debounce``` event.
+
+Here's an example of a cancel button which is only clickable if the event has
+scheduled
+
+```clj
+(defn cancel-button []
+  (let [debounce @(rf/subscribe [:re-fill/debounce])]
+    [:button.controls__button
+     {:on-click (fn [_] (rf/dispatch [:re-fill/stop-debounce :test-notify]))
+      :disabled (not (:test-notify debounce))}
+     "Stop debounce"]))
 ```
 
 See
@@ -277,6 +351,10 @@ lein deploy clojars
 state and time traveling between events.
 * Study how to (optionally!) use hash / URL fragment instead of
 History API.
+* Consider re-naming the debounce related event handlers, effect handlers
+and subscriptions to something more suitable.
+* Figure out a better example app.
+* Figure out how to keep code in README and example app in sync.
 
 ## License
 
