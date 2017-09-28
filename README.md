@@ -69,7 +69,7 @@ Here's an example:
 ```
 
 Lastly, in order to initialize the routing, dispatch
-´´´:re-fill/init-routing``` during your applications startup:
+´´´:re-fill/init-routing``` during the startup of the application:
 
 ```clj
 (defn init!
@@ -105,6 +105,13 @@ programmatically. Here's an example of both:
   "Page 2 (by dispatch)"]]
 ```
 
+The event ```:re-fill/navigate``` is great for initiating navigation from views.
+There's also an **effect** handler for :re-fill/navigate, which makes it
+possible to navigate from event handlers without dispatching more events.
+This is useful for cases where the view dispatches an event, and the event
+handler may conditionally initiate navigation to some other view in addition
+to other side effects (through effects of course).
+
 If you need to refer to your current route from your views, you can use
 ```:re-fill/routing``` subscription for that:
 
@@ -116,10 +123,10 @@ If you need to refer to your current route from your views, you can use
 ```
 
 After navigation happens, Re-fill dispatches an event using the route key as
-an identifier for it. This means that it's recommended to register an event
-handler for each of the routes. Otherwise you get a warning in console.
-The dispatched event is great for setting up the state for the view that's
-gonna be rendered. Here's a simple example:
+an identifier for it. It's recommended to register an event handler for each
+of the routes, otherwise you get a warning to console about a missing event
+handler. This dispatched event is great for setting up the state for the view
+that's gonna be rendered. Here's a simple example:
 
 ```clj
 (rf/reg-event-fx
@@ -128,8 +135,8 @@ gonna be rendered. Here's a simple example:
  ;; The second argument is the event itself. The route match
  ;; from bidi can be destructured from it
  (fn [_ [_ bidi-match]]
-   ;; In real apps, this would return effects map for fetching data
-   and setting state.
+   ;; In real apps, this function would return effects map for
+   ;; fetching data, setting state or something else.
    (js/console.log "Navigated to " bidi-match)))
 ```
 
@@ -144,17 +151,25 @@ creating and deleting notifications, and a subscription for using them
 in your views. Notifications are often used to show information or warning
 dialogs to end-users.
 
-Notifications can be created with ```:re-fill/notify``` event. For example:
+In order to use notifications, the correct namespaces must be required:
 
 ```clj
-;; re-fill.notifications must be required
+(ns example.core
+  (:require [reagent.core :as r]
+            [re-frame.core :as rf]
+            [re-fill.notifications :as notifications]))
+```
 
+After that, notifications can be created with ```:re-fill/notify``` event.
+For example:
+
+```clj
 [:button.controls__button
  {:on-click (fn [_] (rf/dispatch [:re-fill/notify
                                    ;; The first argument is the data
                                    ;; you want to use as notification.
                                    ;; It's your responsibility to add types
-                                   ;; your notifications if you need that.
+                                   ;; your notifications if you need them.
                                    {:type :success
                                     :content "Success!"}
                                    ;; The second (optional) argument is used
@@ -180,11 +195,9 @@ Here's a simple view to demonstrate the usage of
 subscription:
 
 ```clj
-;; re-fill.notifications must be required
-
 (defn notifications-view
   []
-  ;; Subscribing the notifications
+  ;; Subscription to notifications
   (let [notifications @(rf/subscribe [:re-fill/notifications])]
     [:div.notifications
      (for [{:keys [id type content]} notifications]
