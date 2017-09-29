@@ -57,7 +57,7 @@ You also need to create mappings between routes and views:
             :else loading-view})
 ```
 
-In order to render the correct view, add ```routed-view``` in your root view
+In order to render the correct view, add `routed-view` in your root view
 / template, and give the mappings from previous step to it as argument.
 Here's an example:
 
@@ -71,7 +71,7 @@ Here's an example:
 ```
 
 Lastly, in order to initialize the routing, dispatch
-´´´:re-fill/init-routing``` during the startup of the application:
+`:re-fill/init-routing` during the startup of the application:
 
 ```clj
 (defn init!
