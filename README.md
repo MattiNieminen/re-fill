@@ -245,9 +245,10 @@ a one second timeout.
 ```clj
 [:button.controls__button
  {:on-click (fn [_] (rf/dispatch [:re-fill/debounce
-                                  ;; The :key is used to identify the scheduled
-                                  ;; event.
-                                  {:key :test-notify
+                                  ;; The :id is used to identify the scheduled
+                                  ;; event. If :id is not supplied, the id of
+                                  ;; the event will be used.
+                                  {:id :test-notify
                                    ;; The actual event that will be dispatched
                                    ;; or debounced.
                                    :event [:re-fill/notify
@@ -262,7 +263,7 @@ a one second timeout.
 
 Debounce is more than just ```:dispatch-later``` built into Re-frame: this
 scheduled event can be moved further into the future by dispatching
-```:re-fill/debounce``` again with the same ```:key``` that was used before.
+```:re-fill/debounce``` again with the same ```:id``` that was used before.
 This means that in the example above the ```:re-fill/notify``` event won't be
 dispatched ever if the user keeps clicking the button repeatedly with the less
 than one second intervals.

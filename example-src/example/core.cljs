@@ -39,7 +39,7 @@
       "Notify warning!"]
      [:button.controls__button
       {:on-click (fn [_] (rf/dispatch [:re-fill/debounce
-                                      {:key :test-notify
+                                      {:id :test-notify
                                        :event [:re-fill/notify
                                                {:type :success
                                                 :content "From debounce!"}
