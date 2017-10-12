@@ -31,8 +31,9 @@
 
 (rf/reg-fx
  :re-fill/navigate
- (fn [{:keys [pushy-instance routes bidi-args]}]
-   (let [path (apply bidi/path-for routes bidi-args)]
+ (fn [bidi-args]
+   (let [{:keys [pushy-instance routes]} (:re-fill/routing @db/app-db)
+         path (apply bidi/path-for routes bidi-args)]
      (if path
        (pushy/set-token! pushy-instance path)
        (js/console.error "No matching route for" bidi-args)))))
@@ -40,10 +41,7 @@
 (rf/reg-event-fx
  :re-fill/navigate
  (fn [{:keys [db]} [_ bidi-args]]
-   (let [{:keys [pushy-instance routes]} (:re-fill/routing db)]
-     {:re-fill/navigate {:pushy-instance pushy-instance
-                         :routes routes
-                         :bidi-args bidi-args}})))
+   {:re-fill/navigate bidi-args}))
 
 (rf/reg-sub
  :re-fill/routing
