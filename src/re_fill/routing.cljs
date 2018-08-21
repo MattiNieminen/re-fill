@@ -43,6 +43,25 @@
  (fn [{:keys [db]} [_ bidi-args]]
    {:re-fill/navigate bidi-args}))
 
+(rf/reg-fx
+ :re-fill/navigate-raw
+ (fn [url]
+   (aset (.-location js/window) "href" url)))
+
+(rf/reg-event-fx
+  :re-fill/navigate-raw
+  (fn [_ [_ url]]
+    {:re-fill/navigate-raw url}))
+
+(rf/reg-event-fx
+  :re-fill/refresh-page
+  (fn [_] {:re-fill/refresh-page nil}))
+
+(rf/reg-fx
+ :re-fill/refresh-page
+ (fn [_]
+   (.reload (.-location js/window))))
+
 (rf/reg-sub
  :re-fill/routing
  (fn [db _]

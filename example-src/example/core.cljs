@@ -49,7 +49,10 @@
      [:button.controls__button
       {:on-click (fn [_] (rf/dispatch [:re-fill/stop-debounce :test-notify]))
        :disabled (not (:test-notify debounce))}
-      "Stop debounce"]]))
+      "Stop debounce"]
+     [:button.controls__button
+      {:on-click (fn [_] (rf/dispatch [:re-fill/refresh-page]))}
+      "Refresh Page"]]))
 
 (defn notifications-view
   []
