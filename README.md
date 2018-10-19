@@ -114,6 +114,12 @@ This is useful for cases where the view dispatches an event, and the event
 handler may conditionally initiate navigation to some other view in addition
 to other side effects (through effects of course).
 
+There are also event and effect handlers called ```:re-fill/navigate-raw```,
+which navigates to a given raw url, and ```:re-fill/refresh-page```, which
+reloads the current url. See 
+[example](https://github.com/metosin/re-fill/tree/master/example-src/example/core.cljs)
+app for details.
+
 If you need to refer to your current route from your views, you can use
 ```:re-fill/routing``` subscription for that:
 
