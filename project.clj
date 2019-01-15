@@ -1,6 +1,6 @@
-(defproject metosin/re-fill "0.1.0-SNAPSHOT"
+(defproject re-fill "0.2.0-SNAPSHOT"
   :description "A collection of Re-frame components that most applications need."
-  :url "https://github.com/metosin/re-fill"
+  :url "https://github.com/MattiNieminen/re-fill"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :min-lein-version "2.7.1"
