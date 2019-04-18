@@ -26,7 +26,7 @@ with ease.
 
 Currently, Re-fill only supports routes defined using
 [Bidi](https://github.com/juxt/bidi) syntax. For listening the URL in
-your address bar, Re-fill uses [Pushy](https://github.com/kibu-australia/pushy).
+your address bar, Re-fill uses [Pushy](https://github.com/clj-commons/pushy).
 
 To use Re-fill for routing, first require the correct namespace(s):
 
@@ -117,7 +117,7 @@ to other side effects (through effects of course).
 There are also event and effect handlers called ```:re-fill/navigate-raw```,
 which navigates to a given raw url, and ```:re-fill/refresh-page```, which
 reloads the current url. See 
-[example](https://github.com/metosin/re-fill/tree/master/example-src/example/core.cljs)
+[example](https://github.com/MattiNieminen/re-fill/tree/master/example-src/example/core.cljs)
 app for details.
 
 If you need to refer to your current route from your views, you can use
@@ -149,7 +149,7 @@ that's gonna be rendered. Here's a simple example:
 ```
 
 See
-[full example](https://github.com/metosin/re-fill/tree/master/example-src/example/core.cljs)
+[full example](https://github.com/MattiNieminen/re-fill/tree/master/example-src/example/core.cljs)
 for more information.
 
 ### Notifications
@@ -197,33 +197,8 @@ A view must be created for rendering notifications. Re-fill provides a
 subscription ```:re-fill/notifications``` for getting the notifications
 in view functions.
 
-Here's a simple view to demonstrate the usage of
-```:re-fill/delete-notification``` event and ```:re-fill/notifications```
-subscription:
-
-```clj
-(defn notifications-view
-  []
-  ;; Subscription to notifications
-  (let [notifications @(rf/subscribe [:re-fill/notifications])]
-    [:div.notifications
-     (for [{:keys [id type content]} notifications]
-       [:div.notification
-        {:key id
-         :class (case type
-                  :success "notification--success"
-                  :warning "notification--warning")}
-        [:span.notification__span content]
-        [:button.notification__button
-         ;; Deleting a notification requires the id of notification
-         ;; Unique id is generated automatically by Re-fill 
-         {:on-click #(rf/dispatch [:re-fill/delete-notification id])}
-         "x"]])]))
-```
-
-See
-[full example](https://github.com/metosin/re-fill/tree/master/example-src/example/core.cljs)
-for more information.
+An example view with the subscription and deletion usage can be found in the 
+[full example](https://github.com/MattiNieminen/re-fill/tree/master/example-src/example/core.cljs).
 
 ### Debounce
 
@@ -296,7 +271,7 @@ scheduled
 ```
 
 See
-[full example](https://github.com/metosin/re-fill/tree/master/example-src/example/core.cljs)
+[full example](https://github.com/MattiNieminen/re-fill/tree/master/example-src/example/core.cljs)
 for more information.
 
 ### UUIDs
@@ -321,26 +296,24 @@ to be created. Here's an example of how to use it:
 ```
 
 Here's how
-[re-fill.notifications](https://github.com/metosin/re-fill/tree/master/src/re_fill/notifications.cljs)
+[re-fill.notifications](https://github.com/MattiNieminen/re-fill/tree/master/src/re_fill/notifications.cljs)
 utilizes this.
 
 ## Development
 
 All the files for actual library are located under
-[src](https://github.com/metosin/re-fill/tree/master/src/re_fill)
+[src](https://github.com/MattiNieminen/re-fill/tree/master/src/re_fill)
 directory.
 There's an example app for development and testing under
-[example-src](https://github.com/metosin/re-fill/tree/master/example-src/example)
-and
-[example-resources](https://github.com/metosin/re-fill/tree/master/example-resources/public)
-directories.
+[example-src](https://github.com/MattiNieminen/re-fill/tree/master/example-src/example)
+directory.
 
 To get an interactive development environment run:
 
-    lein figwheel
+    lein build-dev
 
 and your browser will open automatically at
-[localhost:3449](http://localhost:3449/). From there, you get the
+[localhost:9500](http://localhost:9500/). From there, you get the
 normal Figwheel development flow.
 
 ## Releasing
@@ -349,23 +322,10 @@ normal Figwheel development flow.
 lein deploy clojars
 ```
 
-## TODO
-
-* Migrate from Bidi to Reitit.
-* Add documentation about complementing libraries
- * A Re-frame library for making HTTP requests is the most important
-* Study re-frisk, or implement a custom dev component for viewing
-state and time traveling between events.
-* Study how to (optionally!) use hash / URL fragment instead of
-History API.
-* Consider re-naming the debounce related event handlers, effect handlers
-and subscriptions to something more suitable.
-* Figure out a better example app.
-* Figure out how to keep code in README and example app in sync.
-
 ## License
 
-Copyright © 2017 Metosin
+Copyright © 2017-2018 Metosin
+Copyright © 2017-2019 Matti Nieminen
 
 Distributed under the Eclipse Public License either version 1.0 or (at your
 option) any later version.
