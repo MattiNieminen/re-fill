@@ -20,6 +20,13 @@
   []
   (let [debounce @(rf/subscribe [:re-fill/debounce])]
     [:div.controls
+     {:style {:display "flex"
+              :flex-flow "column nowrap"
+              :justify-content "space-between"
+              :align-items "center"
+              :flex "0 0 200px"
+              :height "300px"
+              :margin-right "50px"}}
      [:a.controls__a {:href "/"} "Home"]
      [:a.controls__a {:href "/page/1"} "Page 1 (by link)"]
      [:a.controls__a {:href "/page/2"} "Page 2 (by link)"]
@@ -58,12 +65,25 @@
   []
   (let [notifications @(rf/subscribe [:re-fill/notifications])]
     [:div.notifications
-     (for [{:keys [id type content]} notifications]
+     {:style {:position "fixed"
+              :top "0"
+              :right "0"
+              :width "0"
+              :height "0"}}
+     (for [[idx {:keys [id type content]}] (map-indexed vector notifications)]
        [:div.notification
         {:key id
-         :class (case type
-                  :success "notification--success"
-                  :warning "notification--warning")}
+         :style {:display "flex"
+                 :justify-content "space-between"
+                 :align-items "center"
+                 :position "relative"
+                 :right "280px"
+                 :width "250px"
+                 :margin "10px 0"
+                 :padding "10px"
+                 :background-color (case type
+                                     :success "#DFF2BF"
+                                     :warning "#FEEFB3")}}
         [:span.notification__span content]
         [:button.notification__button
          {:on-click #(rf/dispatch [:re-fill/delete-notification id])}
@@ -86,6 +106,7 @@
 (defn main-view
   [views]
   [:div.main
+   {:style {:display "flex"}}
    [controls-view]
    [:div.main-content
     [routing/routed-view views]

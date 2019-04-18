@@ -13,18 +13,9 @@
                  [cljs-uuid "0.0.4"]]
   :plugins [[lein-figwheel "0.5.18"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
-  :cljsbuild {:builds
-              [{:id "dev"
-                :source-paths ["src" "example-src"]
-                :figwheel {:open-urls ["http://localhost:3449"]}
-                :compiler {:main example.core
-                           :asset-path "js/out"
-                           :output-to "dev-build/public/js/example.js"
-                           :output-dir "dev-build/public/js/out"
-                           :source-map-timestamp true
-                           :preloads [devtools.preload]}}]}
-  :figwheel {:css-dirs ["example-resources/public/css"]}
-  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]]
-                   :clean-targets ^{:protect false} ["dev-build/public/js/"
-                                                     :target-path]
-                   :resource-paths ["dev-build" "example-resources"]}})
+  :profiles {:dev {:source-paths ["src" "example-src"]
+                   :dependencies [[com.bhauman/figwheel-main "0.2.0"]
+                                  [com.bhauman/rebel-readline-cljs "0.1.4"]
+                                  [binaryage/devtools "0.9.10"]]}}
+  :aliases {"fig" ["trampoline" "run" "-m" "figwheel.main"]
+            "build-dev" ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]})
