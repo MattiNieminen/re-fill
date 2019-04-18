@@ -5,14 +5,12 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :min-lein-version "2.7.1"
   :dependencies [[org.clojure/clojure "1.10.0" :scope "provided"]
-                 [org.clojure/clojurescript "1.10.439" :scope "provided"]
+                 [org.clojure/clojurescript "1.10.520" :scope "provided"]
                  [re-frame "0.10.6" :scope "provided"]
                  [reagent "0.8.1" :scope "provided"]
-                 [bidi "2.1.5"]
+                 [bidi "2.1.6"]
                  [lifecheq/pushy "0.3.9"]
                  [cljs-uuid "0.0.4"]]
-  :plugins [[lein-figwheel "0.5.18"]
-            [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
   :profiles {:dev {:source-paths ["src" "example-src"]
                    :dependencies [[com.bhauman/figwheel-main "0.2.0"]
                                   [com.bhauman/rebel-readline-cljs "0.1.4"]
