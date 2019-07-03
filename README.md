@@ -276,7 +276,7 @@ for more information.
 
 ### UUIDs
 
-Re-fill used to provide a co-effect for injects UUIDS to event handlers. This
+Re-fill used to provide a co-effect for injecting UUIDS to event handlers. This
 feature has been removed in favor of manually calling ```random-uuid``` function
 from ClojureScript core.
 
