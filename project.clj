@@ -1,4 +1,4 @@
-(defproject mattinieminen/re-fill "0.1.0"
+(defproject mattinieminen/re-fill "0.2.0"
   :description "A collection of Re-frame components that most applications need."
   :url "https://github.com/MattiNieminen/re-fill"
   :license {:name "Eclipse Public License"
