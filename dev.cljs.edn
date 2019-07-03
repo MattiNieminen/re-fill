@@ -1,1 +1,2 @@
+^{:watch-dirs ["src" "example-src"]}
 {:main example.core}
