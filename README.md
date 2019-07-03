@@ -276,28 +276,9 @@ for more information.
 
 ### UUIDs
 
-Re-fill provides a co-effect ```:re-fill/uuids``` for injecting UUIDs to
-event handlers. In fact, the ```:re-fill/notify``` event handler uses
-it internally to generate unique ids for each notification.
-
-```:re-fill/uuids``` takes a single argument: the amount of UUIDs
-to be created. Here's an example of how to use it:
-
-```clj
-;; re-fill.uuid must be required
-
-(rf/reg-event-fx
- :your/event
- [(rf/inject-cofx :re-fill/uuids 2)]
- ;; :uuids can be destructured from co-effects
- (fn [{:keys [db uuids]} _]
-   ;; uuids is a vector of 2 UUIDs
-   ))
-```
-
-Here's how
-[re-fill.notifications](https://github.com/MattiNieminen/re-fill/tree/master/src/re_fill/notifications.cljs)
-utilizes this.
+Re-fill used to provide a co-effect for injects UUIDS to event handlers. This
+feature has been removed in favor of manually calling ```random-uuid``` function
+from ClojureScript core.
 
 ## Development
 

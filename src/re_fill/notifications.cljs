@@ -1,12 +1,10 @@
 (ns re-fill.notifications
-  (:require [re-frame.core :as rf]
-            [re-fill.uuid]))
+  (:require [re-frame.core :as rf]))
 
 (rf/reg-event-fx
  :re-fill/notify
- [(rf/inject-cofx :re-fill/uuids 1)]
- (fn [{:keys [db uuids]} [_ notification options]]
-   (let [id (first uuids)
+ (fn [{:keys [db]} [_ notification options]]
+   (let [id (random-uuid)
          {:keys [hide-after]} options]
      (merge
       {:db (update db :re-fill/notifications conj (assoc notification :id id))}
